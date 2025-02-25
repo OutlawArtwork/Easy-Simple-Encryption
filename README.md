@@ -4,7 +4,7 @@
 
 ## Table of contents
 
-- [Project Name](#project-name)
+- [Easy Encryption](#project-name)
   - [Table of contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -119,7 +119,8 @@ export default MyComponent;
 
 ## Versioning
 
-- 1.2.0
+- 1.0.1
+- 1.0.0
 
 ## Authors
 
