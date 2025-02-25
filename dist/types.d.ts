@@ -3,4 +3,7 @@ declare function useEncryption(): {
     decrypt: (text: string) => Promise<string>;
 };
 
-export { useEncryption };
+declare const encrypt: (text: string) => Promise<string>;
+declare const decrypt: (text: string) => Promise<string>;
+
+export { decrypt, encrypt, useEncryption };

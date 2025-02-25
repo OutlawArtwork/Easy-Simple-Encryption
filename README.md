@@ -8,9 +8,9 @@
   - [Table of contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
-    - [useEncryption](#useEncryption)
-    - [encrypt](#encrypt)
-    - [decrypt](#decrypt)
+    - [useEncryption Hook](#useEncryption)
+    - [encrypt function](#encrypt-function)
+    - [decrypt function](#decrypt-function)
   - [Versioning](#versioning)
   - [Authors](#authors)
 
@@ -26,13 +26,13 @@ $ npm i easy-simple-encryption
 
 ### useEncryption
 
-The hook that can be used from any React Component.
+The hook that can be used from any client side component.
 The hook uses async calls.
 
 Usage:
 
 ```ts
-useEncryption();
+const { encrypt, decrypt } = useEncryption();
 ```
 
 ### encrypt
@@ -40,7 +40,7 @@ useEncryption();
 Usage:
 
 ```ts
-encrypt("text").then((result) => result);
+encrypt("text");
 ```
 
 Options:
@@ -53,22 +53,22 @@ Options:
 
 Example:
 
+> outputs: 4330776p5k6l24246779624o
+
 ```tsx
 import { useEncryption } from "easy-simple-encryption";
 
 function MyComponent() {
-  const { encrypt, decrypt } = useEncryption();
+  const { encrypt } = useEncryption();
 
-  // on submit
+  // on async call
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const password = await encrypt("some password");
+    const password = await encrypt("S0mePa$$worD");
   }
 
-  // in a component
   return (
     <div>
-      <p>{encrypt("some text to encrypt").then((result) => result)}</p>
       <button onClick={onSubmit}>
     </div>
   );
@@ -81,7 +81,7 @@ export default MyComponent;
 Usage:
 
 ```ts
-decrypt("encrypted_key").then((result) => result);
+decrypt("encrypted_key");
 ```
 
 Options:
@@ -94,22 +94,22 @@ Options:
 
 Example:
 
+> outputs S0mePa$$worD
+
 ```tsx
 import { useEncryption } from "easy-simple-encryption";
 
 function MyComponent() {
-  const { encrypt, decrypt } = useEncryption();
+  const { decrypt } = useEncryption();
 
   // on submit
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const password = await decrypt("some encrypted key");
+    const password = await decrypt("4330776p5k6l24246779624o");
   }
 
-  // in a component
   return (
     <div>
-      <p>{encrypt("some encrypted key").then((result) => result)}</p>
       <button onClick={onSubmit}>
     </div>
   );
@@ -117,8 +117,94 @@ function MyComponent() {
 export default MyComponent;
 ```
 
+### encrypt function
+
+This function can be used on server side components.
+
+Usage:
+
+```ts
+encrypt("text");
+```
+
+Options:
+
+`text` (Required)
+
+| Type   | value  | Description                |
+| ------ | ------ | -------------------------- |
+| string | "text" | The string to be encrypted |
+
+Example:
+
+```ts
+"use server";
+import { encrypt, decrypt } from "easy-simple-encryption";
+
+export const login = async (
+  details: Authentication
+): Promise<AuthenticationResult> => {
+  const { password } = details;
+
+  const account: UserAccount = await checkAccount(await encrypt(password));
+  if (account.error) {
+    return {
+      result: AUTHPAGERESULT.FAIL,
+    };
+  }
+
+  return {
+    result: AUTHPAGERESULT.SUCCESS,
+  };
+};
+```
+
+### decrypt function
+
+This function can be used on server side components.
+
+Usage:
+
+```ts
+decrypt("text");
+```
+
+Options:
+
+`encrypted_key` (Required)
+
+| Type   | value           | Description             |
+| ------ | --------------- | ----------------------- |
+| string | "encrypted_key" | The key to be decrypted |
+
+Example:
+
+```ts
+"use server";
+import { encrypt, decrypt } from "easy-simple-encryption";
+
+export const login = async (
+  details: Authentication
+): Promise<AuthenticationResult> => {
+  const { email, password } = details;
+
+  const account: UserAccount = await getAccount(email);
+  const auth = await decrypt(account.password);
+  if (auth !== password) {
+    return {
+      result: AUTHPAGERESULT.FAIL,
+    };
+  }
+
+  return {
+    result: AUTHPAGERESULT.SUCCESS,
+  };
+};
+```
+
 ## Versioning
 
+- 1.0.2
 - 1.0.1
 - 1.0.0
 
