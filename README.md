@@ -4,10 +4,11 @@
 
 ## Table of contents
 
-- [Easy Encryption](#project-name)
+- [Easy Simple Encryption](#project-name)
   - [Table of contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Secret](#secret)
     - [useEncryption Hook](#useEncryption)
     - [encrypt function](#encrypt-function)
     - [decrypt function](#decrypt-function)
@@ -23,6 +24,34 @@ $ npm i easy-simple-encryption
 ```
 
 ## Usage
+
+### Secret
+
+Add a secret key that will be used to generate the encypted text.
+This is optional.
+
+> Setting a key is recommended to add additional security
+
+Usage:
+
+```ts
+secret("some key");
+```
+
+Options:
+
+`key` (Required)
+
+| Type   | value | Description  |
+| ------ | ----- | ------------ |
+| string | "key" | A secret key |
+
+Example:
+
+```tsx
+import { secret as SecretKey } from "easy-simple-encryption";
+SecretKey(process.env.SECRET);
+```
 
 ### useEncryption
 
@@ -53,7 +82,7 @@ Options:
 
 Example:
 
-> outputs: 4330776p5k6l24246779624o
+> outputs: 4330776p5k6l24246779624o664024255o2631
 
 ```tsx
 import { useEncryption } from "easy-simple-encryption";
@@ -105,7 +134,7 @@ function MyComponent() {
   // on submit
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const password = await decrypt("4330776p5k6l24246779624o");
+    const password = await decrypt("4330776p5k6l24246779624o664024255o2631");
   }
 
   return (
@@ -204,6 +233,7 @@ export const login = async (
 
 ## Versioning
 
+- 1.0.4 (Added Secret)
 - 1.0.3
 - 1.0.2
 - 1.0.1
